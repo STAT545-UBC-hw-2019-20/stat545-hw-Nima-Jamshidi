@@ -1,0 +1,20 @@
+---
+title: "hw01_gapminder"
+author: "Nima"
+date: "9/15/2019"
+output: html_document
+---
+
+
+```{r}
+
+library(gapminder)
+summary(gapminder)
+Iran <- gapminder[which(gapminder$country=="Iran"),]
+Asia <- gapminder[which(gapminder$continent=="Asia"),]
+summary(Iran[,4:6])
+mean(Iran$lifeExp)>mean(Asia$lifeExp)
+mean(Iran$pop)>mean(Asia$pop)
+mean(Iran$gdpPercap)>mean(Asia$gdpPercap)
+
+```
