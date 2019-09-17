@@ -1,17 +1,23 @@
 ---
-title: "hw01_gapminder"
+title: "Gapminder Exploration"
 author: "Nima"
-date: "9/15/2019"
-output: github_document
+date: "9/17/2019"
+output: ioslides_presentation
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
 
 ```{r, echo=FALSE}
 library(gapminder)
 ```
 
+## Gapminder exploration
 
+using the gapminder package and some of the functions in R, we explore the data with a focus on Iran.
 
+## Asia
 
 Here is a summary of life expectancy, population and GDP per capita of countries in Asia:
 
@@ -20,12 +26,16 @@ Asia <- gapminder[which(gapminder$continent=="Asia"),]
 summary(Asia[,4:6])
 ```
 
+## Iran
+
 Here you can see the summary of the same variables for Iran:
 
 ```{r ,echo=FALSE}
 Iran <- gapminder[which(gapminder$country=="Iran"),]
 summary(Iran[,4:6])
 ```
+
+## Comparison
 
 __Are life expectancy, population and GDP per capita of Iran higher than the average of countries in Asia?__
 
