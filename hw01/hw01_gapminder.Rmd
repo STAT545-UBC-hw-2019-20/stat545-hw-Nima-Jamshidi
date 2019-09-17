@@ -2,19 +2,49 @@
 title: "hw01_gapminder"
 author: "Nima"
 date: "9/15/2019"
-output: html_document
+output: github_document
 ---
 
 
-```{r}
-
+```{r, echo=FALSE}
 library(gapminder)
-summary(gapminder)
-Iran <- gapminder[which(gapminder$country=="Iran"),]
+```
+
+
+
+
+Here is a summary of life expectancy, population and GDP per capita of countries in Asia:
+
+```{r , echo= FALSE}
 Asia <- gapminder[which(gapminder$continent=="Asia"),]
+summary(Asia[,4:6])
+```
+
+Here you can see the summary of the same variables for Iran:
+
+```{r ,echo=FALSE}
+Iran <- gapminder[which(gapminder$country=="Iran"),]
 summary(Iran[,4:6])
-mean(Iran$lifeExp)>mean(Asia$lifeExp)
-mean(Iran$pop)>mean(Asia$pop)
-mean(Iran$gdpPercap)>mean(Asia$gdpPercap)
+```
+
+__Are life expectancy, population and GDP per capita of Iran higher than the average of countries in Asia?__
+
+```{r comparison, echo= FALSE}
+c1 <- mean(Iran$lifeExp)>mean(Asia$lifeExp)
+c2 <- mean(Iran$pop)>mean(Asia$pop)
+c3 <- mean(Iran$gdpPercap)>mean(Asia$gdpPercap)
+c <- c(c1,c2,c3)
+cc <- c("","","")
+for (i in 1:3){ifelse(c[i]==TRUE,cc[i] <- "greater",cc[i] <- "less") 
+  }
+
+```
+As you can see from the above:
+
+- The average of life expectancy in Iran is `r cc[1]` than the average of countries in Asia.
+
+- The average of population in Iran is `r cc[2]` than the average of countries in Asia.
+
+- The average of GDP per capita in Iran is `r cc[3]` than the average of countries in Asia.
 
 ```
