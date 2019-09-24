@@ -1,0 +1,153 @@
+---
+title: "hw02"
+author: "Nima"
+date: "9/22/2019"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r , include=FALSE}
+library(gapminder)
+library(tidyverse)
+library(DT)
+```
+
+
+### __Answer to exercise 1.1:__ 
+
+```{r 1.1}
+knitr::kable(A1.1 <- gapminder %>%
+    filter(country %in% c("Iran","Turkey","Saudi Arabia"),year>=1970&year<1980))
+```
+
+
+### __Answer to exercise 1.2: __
+
+```{r 1.2}
+knitr::kable(A1.1 %>%
+    select(country,gdpPercap))
+```
+
+
+### __Answer to exercise 1.3: __
+
+```{r 1.3}
+datatable(gapminder %>%
+    mutate(PreviouslifeExp=lag(lifeExp)) %>%
+    filter(lifeExp-PreviouslifeExp<0) %>%
+    select(-PreviouslifeExp))
+```
+
+
+### __Answer to exercise 1.4 part 1: __
+
+```{r 1.4.1}
+datatable(gapminder %>%
+    group_by(country) %>% 
+    filter(gdpPercap==max(gdpPercap)))
+```
+
+
+### __Answer to exercise 1.4 part 2: __
+
+```{r 1.4.2}
+knitr::kable(gapminder %>%
+    mutate(row_number=row_number()) %>%
+    arrange(desc(gdpPercap)) %>% 
+    filter(row_number %in% sort(gapminder$gdpPercap,decreasing = TRUE,index.return=TRUE)$ix[1:3]|row_number %in% sort(gapminder$gdpPercap,index.return=TRUE)$ix[1:3]) %>%
+    select(-row_number))
+```
+
+
+### __Answer to exercise 1.5: __
+
+```{r 1.5}
+gapminder %>% 
+  filter(country=="Canada") %>% 
+  ggplot()+
+  geom_point(aes(x=lifeExp, y=gdpPercap))+
+  theme_bw()+
+  scale_y_log10("GDP per Capita",labels=scales::dollar_format())+
+  xlab("Life Expectancy")
+  
+```
+
+### __Answer to exercise 2:__
+
+From the gapminder dataset I chose the _continent_ and _population_ variables for the latest year available in the data (2007).
+
+Here is a summary of the variables:
+
+```{r exercise 2, echo=FALSE,results="asis",warning=FALSE}
+A2 <- gapminder %>%
+  filter(year==max(year)) %>%
+  select(continent, pop) 
+cat(paste("The frequency of the continents are as follows:"," \n   -"))
+#table(summary(A2)[,1])
+#datatable(tibble("Continent"=summary(A2)[1:5,1]))
+cat(paste(summary(A2)[1:5,1],collapse=" \n   -"))
+cat(paste(" \n","The mode of the continent variable is",levels(A2$continent)[as.numeric(A2 %>% group_by(continent) %>% summarise(n=n()) %>% filter(n==max(n)) %>%  summarise(mode=continent))]
+,". \n"))
+
+gapminder %>%
+  filter(year==max(year)) %>%
+  select(continent, pop) %>% 
+ggplot()+
+  geom_histogram(aes(continent),stat="count")+
+  theme_bw()+
+  xlab("Continent")
+cat(paste(" \n \n \n"))
+cat(paste("Min, max, median, 1st and 3rd quantile of the population variable are as follows:"," \n   -"))
+cat(paste(summary(A2)[,2],collapse=" \n   -"))
+#(A2 %>% summary())[,2]
+cat(paste(" \n"))
+gapminder %>%
+  filter(year==max(year)) %>%
+  select(continent, pop) %>% 
+ggplot()+
+  geom_histogram(aes(pop),bins = 30)+
+  theme_bw()+
+  scale_x_log10("Population")
+
+```
+
+
+### __Answer to exercise 3:__
+
+```{r exercise 3}
+ggplot(iris)+
+  geom_point(aes(x=Sepal.Length , y=Petal.Length, color=Species))+
+  theme_bw()+
+  xlab("Sepal Length")+
+  ylab("Petal Length")
+
+ggplot(iris)+
+  geom_boxplot(aes(Species, Sepal.Length))+
+  theme_bw()+
+  ylab("Sepal Length")
+
+```
+
+### __Answer to exercise 3, Recycling:__
+
+The result of the code below is:
+
+```{r, results="hide"}
+filter(gapminder %>% ungroup(), country == c("Rwanda", "Afghanistan"))
+```
+
+```{r, echo=FALSE}
+datatable(filter(gapminder %>% ungroup(), country == c("Rwanda", "Afghanistan")))
+```
+
+This is not the intended result. The code above searches through the rows for "Rwanda" and "Afghanistan" in a cycle. for example for the row belonging to Afghanistan in 1952, it has searched for "Rwanda" and gave a FALSE answer and passed to the next row. For the next row which is Afaghanistan in 1957, it has searched for "Afghanistan". Therefore the answer was TRUE and you can see this row in the result. The correct code to filter the data for these two countries is:
+
+```{r, results="hide"}
+filter(gapminder, country %in% c("Rwanda", "Afghanistan"))
+```
+
+
+```{r, echo=FALSE}
+datatable(filter(gapminder, country %in% c("Rwanda", "Afghanistan")))
+```
