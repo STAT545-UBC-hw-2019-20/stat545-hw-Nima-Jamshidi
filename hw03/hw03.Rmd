@@ -1,0 +1,88 @@
+---
+title: "Untitled"
+author: "Nima"
+date: "9/30/2019"
+output: 
+  html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include=FALSE}
+library(tidyverse)
+library(gapminder)
+library(ggridges)
+```
+
+
+## Task Option 2
+
+**Get the maximum and minimum of GDP per capita for all continents.**
+
+The minimum and maximum of GDP per capita for all continents are drawn on the figure bellow. A drastic change for Asia can be observed which might be related to the increase of population. Maximum of GDP per capita between the countries in Asia around 1970s belong to Kuwait. The bump of GDP per capita in that period probably relates to  the oil crisis in 1973.
+
+```{r Task Option 2, fig.align='center'}
+gapminder %>% 
+  group_by(year,continent) %>% 
+  filter(gdpPercap %in% c(max(gdpPercap),min(gdpPercap))) %>% 
+  mutate(type=ifelse(gdpPercap==min(gdpPercap),"minimum","maximum")) %>% 
+  ggplot()+
+  geom_line(aes(year,gdpPercap,color=continent,linetype=type))+
+  scale_y_continuous(name="GDP per capita")+
+  theme_bw()
+  
+```
+
+## Task Option 3
+
+**Look at the spread of GDP per capita within the continents.**
+
+For the latest year in the dataset, 2007, the distribution of GDP per capita is drawn for each continent.
+
+```{r Task Option 3, message=FALSE, fig.align='center'}
+#At first I tried to use geom_density_ridges(), However it was not a good choice cause it didn't plot anything for Oceania. Only two rows belong to Oceania in this dataset and it might not be a good idea to plot the density distribution for that. Therefore, Ichose histogram instead.
+(plot1 <- gapminder %>% 
+  group_by(continent) %>% 
+  filter(year==max(year)) %>% 
+  ggplot()+
+  geom_histogram(aes(gdpPercap),position="stack")+
+  facet_wrap(~continent)+
+  scale_x_discrete(name="GDP per capita")+
+  theme_bw())
+
+```
+
+## Task Option 4
+
+**Compute a weighted mean of life expectancy for different years, weighting by population.**
+
+As you can see from the graph bellow, the countries with higher population in Americas have higher life expectancy. Whereas in Asia the weight of populated countries is heavy enough to lower the weighted mean of life expectancy in comparison to the standard mean.
+
+<!--https://stackoverflow.com/questions/20847371/two-column-layouts-in-rstudio-presentations-slidify-pandoc-->
+<div style="float: left;width: 50%;">
+```{r}
+table1 <- gapminder %>% 
+  group_by(continent,year) %>% 
+  mutate(wt=pop/sum(pop)) %>%
+  summarise(weightedmean=weighted.mean(lifeExp,wt),standardmean=mean(lifeExp)) %>% 
+  pivot_longer(cols=c(weightedmean,standardmean),names_to = "mean_type",values_to = "lifeExpmean") 
+DT::datatable(table1)
+```
+
+</div>
+
+<div style="float: right;width: 50%;">
+```{r}
+table1 %>% 
+  ggplot()+
+  geom_line(aes(year,lifeExpmean,color=mean_type))+
+  facet_wrap(~ continent)+
+  scale_color_discrete(name="mean type",labels=c("standard mean","weighted mean"))+
+  theme_bw()+
+  theme(legend.position = c(0.8, 0.2))+
+  scale_y_discrete((name="mean of life expectancy"))
+
+```
+</div>
