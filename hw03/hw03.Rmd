@@ -1,5 +1,5 @@
 ---
-title: "Untitled"
+title: "hw03"
 author: "Nima"
 date: "2019-09-30 17:30:00 +0800"
 output: 
@@ -59,7 +59,7 @@ For the latest year in the dataset, 2007, the distribution of GDP per capita is 
 
 **Compute a weighted mean of life expectancy for different years, weighting by population.**
 
-As you can see from the graph bellow, the countries with higher population in Americas have higher life expectancy. Whereas in Asia the weight of populated countries is heavy enough to lower the weighted mean of life expectancy in comparison to the standard mean.
+Standard and weighted means for each year for each continent is calculated and presented in a table (left) and a plot (right).  By comparing the two types of averaging, one can see from the graph bellow that the countries with higher population in Americas have higher life expectancy. Whereas in Asia the weight of populated countries is heavy enough to lower the weighted mean of life expectancy in comparison to the standard mean.
 
 <!--https://stackoverflow.com/questions/20847371/two-column-layouts-in-rstudio-presentations-slidify-pandoc-->
 <div style="float: left;width: 50%;">
