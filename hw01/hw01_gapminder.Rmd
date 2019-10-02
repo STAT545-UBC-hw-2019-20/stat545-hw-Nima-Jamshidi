@@ -1,7 +1,7 @@
 ---
 title: "hw01_gapminder"
 author: "Nima"
-date: "9/15/2019"
+date: "2019-09-15 17:30:00 +0800"
 output: github_document
 ---
 
