@@ -3,7 +3,8 @@ title: "Untitled"
 author: "Nima"
 date: "9/30/2019"
 output: 
-  html_document
+  html_document:
+    keep_md: true
 ---
 
 ```{r setup, include=FALSE}
