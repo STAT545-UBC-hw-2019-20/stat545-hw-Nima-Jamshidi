@@ -1,0 +1,107 @@
+---
+title: "hw04"
+author: "Nima"
+date: "2019-10-07 17:30:00 +0800"
+output: 
+  html_document:
+    keep_md: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include=FALSE}
+library(tidyverse)
+library(gapminder)
+library(ggridges)
+```
+
+
+## Exercise 1: Univariate Data Reshaping
+
+### Univariate Option 1
+
+**1. Make a tibble with one row per year, and columns for life expectancy for two or more countries.**
+
+
+```{r 1-1}
+A1 <- gapminder %>% 
+  pivot_wider(id_cols = year,
+              names_from = country,
+              values_from = lifeExp)
+DT::datatable(A1)
+```
+
+
+**2. Take advantage of this new data shape to scatterplot life expectancy for one country against that of another.**
+
+Here the life expectancy of Canada is plotted against that of Australia.
+
+```{r 1-2, fig.align='center'}
+A1 %>% select(Canada,Australia) %>% 
+  ggplot()+
+  geom_point(aes(Canada,Australia))
+  #ggtitle("Life expectancy in Canada vs. Australia ")
+  
+    
+```
+
+**3. Re-lengthen the data.**
+
+```{r 1-3}
+A1 %>% pivot_longer(cols = c(-year),
+                    names_to = "Country",
+                    values_to = "lifeExp") %>% 
+  DT::datatable()
+```
+
+## Exercise 2: Multivariate Data Reshaping
+
+### Multivariate Option 1
+
+**1. Make a tibble with one row per year, and columns for life expectancy and GDP per capita (or two other numeric variables) for two or more countries.**
+
+```{r 2.1}
+A2 <- gapminder %>% 
+  pivot_wider(id_cols= c(year),
+              names_from = country,
+              names_sep = "_",
+              values_from = c(lifeExp,gdpPercap))
+DT::datatable(A2)
+```
+
+**2. Re-lengthen the data.**
+
+```{r 2.2}
+A2 %>% pivot_longer(cols = c(-year),
+                    names_to = c(".value","country"),
+                    names_sep = "_")
+str(pivot_longer)
+```
+
+## Exercise 3: Table Joins
+
+```{r, include = FALSE}
+guest <- read_csv("https://raw.githubusercontent.com/STAT545-UBC/Classroom/master/data/wedding/attend.csv")
+email <- read_csv("https://raw.githubusercontent.com/STAT545-UBC/Classroom/master/data/wedding/emails.csv")
+```
+
+**1. For each guest in the guestlist (guest tibble), add a column for email address, which can be found in the email tibble.**
+
+```{r 3-1}
+guest %>% left_join(email %>% separate_rows(guest, sep = ", "), by = c("name"="guest")) %>% DT::datatable()
+```
+
+**2. Who do we have emails for, yet are not on the guestlist?**
+
+```{r 3-2}
+email %>% separate_rows(guest, sep = ", ") %>% anti_join(guest, by = c("guest"="name")) %>% DT::datatable()
+```
+
+**3. Make a guestlist that includes everyone we have emails for (in addition to those on the original guestlist).**
+
+```{r 3-3}
+guest %>% full_join(email %>% separate_rows(guest, sep = ", "), by = c("name"="guest")) %>% DT::datatable()
+```
+
