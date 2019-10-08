@@ -17,16 +17,18 @@ library(gapminder)
 library(ggridges)
 ```
 
-
+<br>
 
 
 ## Exercise 1: Univariate Data Reshaping
 
-
 ### Univariate Option 1
 
+<br>
 
 **1. Make a tibble with one row per year, and columns for life expectancy for two or more countries.**
+
+<br>
 
 
 ```{r 1-1}
@@ -38,11 +40,15 @@ DT::datatable(A1)
 ```
 
 
-
+<br>
 
 **2. Take advantage of this new data shape to scatterplot life expectancy for one country against that of another.**
 
+<br>
+
 Here the life expectancy of Canada is plotted against that of Australia.
+
+<br>
 
 ```{r 1-2, fig.align='center'}
 A1 %>% select(Canada,Australia) %>% 
@@ -52,9 +58,11 @@ A1 %>% select(Canada,Australia) %>%
 
 
 
-
+<br>
 
 **3. Re-lengthen the data.**
+
+<br>
 
 ```{r 1-3}
 A1 %>% pivot_longer(cols = c(-year),
@@ -64,16 +72,20 @@ A1 %>% pivot_longer(cols = c(-year),
 ```
 
 
-
+<br>
 
 
 ## Exercise 2: Multivariate Data Reshaping
 
+<br>
 
 ### Multivariate Option 1
 
+<br>
 
 **1. Make a tibble with one row per year, and columns for life expectancy and GDP per capita (or two other numeric variables) for two or more countries.**
+
+<br>
 
 ```{r 2.1}
 A2 <- gapminder %>% 
@@ -84,7 +96,11 @@ A2 <- gapminder %>%
 DT::datatable(A2)
 ```
 
+<br>
+
 **2. Re-lengthen the data.**
+
+<br>
 
 ```{r 2.2}
 A2 %>% pivot_longer(cols = c(-year),
@@ -93,7 +109,11 @@ A2 %>% pivot_longer(cols = c(-year),
   DT::datatable()
 ```
 
+<br>
+
 ## Exercise 3: Table Joins
+
+<br>
 
 ```{r, include = FALSE}
 guest <- read_csv("https://raw.githubusercontent.com/STAT545-UBC/Classroom/master/data/wedding/attend.csv")
@@ -102,17 +122,26 @@ email <- read_csv("https://raw.githubusercontent.com/STAT545-UBC/Classroom/maste
 
 **1. For each guest in the guestlist (guest tibble), add a column for email address, which can be found in the email tibble.**
 
+<br>
+
 ```{r 3-1}
 guest %>% left_join(email %>% separate_rows(guest, sep = ", "), by = c("name"="guest")) %>% DT::datatable()
 ```
+<br>
 
 **2. Who do we have emails for, yet are not on the guestlist?**
+
+<br>
 
 ```{r 3-2}
 email %>% separate_rows(guest, sep = ", ") %>% anti_join(guest, by = c("guest"="name")) %>% DT::datatable()
 ```
 
+<br>
+
 **3. Make a guestlist that includes everyone we have emails for (in addition to those on the original guestlist).**
+
+<br>
 
 ```{r 3-3}
 guest %>% full_join(email %>% separate_rows(guest, sep = ", "), by = c("name"="guest")) %>% DT::datatable()
