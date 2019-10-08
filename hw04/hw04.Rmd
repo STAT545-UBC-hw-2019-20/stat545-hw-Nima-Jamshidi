@@ -1,6 +1,6 @@
 ---
 title: "hw04"
-author: "Nima"
+author: "Nima Jamshidi"
 date: "2019-10-07 17:30:00 +0800"
 output: 
   html_document:
@@ -18,9 +18,13 @@ library(ggridges)
 ```
 
 
+
+
 ## Exercise 1: Univariate Data Reshaping
 
+
 ### Univariate Option 1
+
 
 **1. Make a tibble with one row per year, and columns for life expectancy for two or more countries.**
 
@@ -34,6 +38,8 @@ DT::datatable(A1)
 ```
 
 
+
+
 **2. Take advantage of this new data shape to scatterplot life expectancy for one country against that of another.**
 
 Here the life expectancy of Canada is plotted against that of Australia.
@@ -42,10 +48,11 @@ Here the life expectancy of Canada is plotted against that of Australia.
 A1 %>% select(Canada,Australia) %>% 
   ggplot()+
   geom_point(aes(Canada,Australia))
-  #ggtitle("Life expectancy in Canada vs. Australia ")
-  
-    
 ```
+
+
+
+
 
 **3. Re-lengthen the data.**
 
@@ -56,9 +63,15 @@ A1 %>% pivot_longer(cols = c(-year),
   DT::datatable()
 ```
 
+
+
+
+
 ## Exercise 2: Multivariate Data Reshaping
 
+
 ### Multivariate Option 1
+
 
 **1. Make a tibble with one row per year, and columns for life expectancy and GDP per capita (or two other numeric variables) for two or more countries.**
 
@@ -76,8 +89,8 @@ DT::datatable(A2)
 ```{r 2.2}
 A2 %>% pivot_longer(cols = c(-year),
                     names_to = c(".value","country"),
-                    names_sep = "_")
-str(pivot_longer)
+                    names_sep = "_") %>% 
+  DT::datatable()
 ```
 
 ## Exercise 3: Table Joins
