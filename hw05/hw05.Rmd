@@ -188,7 +188,7 @@ oldplot <- gapminder %>%
   geom_line(aes(year,gdpPercap,color=continent,linetype=type))+
   scale_y_continuous(name=" ")+
   scale_x_continuous(name=" ")+
-  ggtitle("Range of gdp per capita ($) since 1950s")+
+  ggtitle("Range of GDP per capita ($) since 1950s")+
   theme_bw()+
   theme(legend.title = element_blank())
 oldplot %>% plotly::ggplotly() %>% 
