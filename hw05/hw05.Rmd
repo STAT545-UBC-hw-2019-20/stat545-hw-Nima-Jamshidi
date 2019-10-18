@@ -40,6 +40,7 @@ library(ggridges)
  ```
  ````{r ref.label="2.2",eval=FALSE,echo=TRUE}
  ```
+<br>
  
 ```{r 2.1,results="asis",echo=FALSE}
 gapminder_wo_Oceania <- gapminder %>% 
@@ -111,13 +112,16 @@ cat(" </div> ")
 cat(" <div style= \"clear:both; \"></div> ")
 ```
 
+<br>
+
 ## Exercise 3: File input/output (I/O)
 
 <br>
 
-````{r ref.label="2.1",eval=FALSE,echo=TRUE}
- ```
-
+```{r ref.label="2.1",eval=FALSE,echo=TRUE}
+```
+<br>
+  
 In this exercise, I used the gapminder data to show the difference between the minimum and maximum of gdp per capita for each continent for year 2007 and save it into variable gdpRange. After writing into csv file and reading it back, the class of variable continent as shown bellow has changed to "character". I changed it to factor and then reordered it by gdpRange. 
 
 ```{r 3,results="asis",echo=FALSE,message=FALSE}
@@ -144,18 +148,22 @@ gdpRange2 %>% arrange(continent) %>% knitr::kable()
 
 ```
 
+<br>
+
 ## Exercise 4: Visualization design
 
 <br>
-
-I take a plot from homework 3. The minimum and maximum of GDP per capita for all continents are shown in this graph. The old plot is shown on the left side. I tried to make it simpler by removing the x-axis and y-axis labels and adding a title. The new graph on the right side uses the plotly package to make the graph interactive.
 
 ```{r ref.label="4.1",eval=FALSE,echo=TRUE}
 ```
 
 ```{r ref.label="4.2",eval=FALSE,echo=TRUE}
 ```
+<br>
+
+I take a plot from homework 3. The minimum and maximum of GDP per capita for all continents are shown in this graph. The old plot is shown on the left side. I tried to make it simpler by removing the x-axis and y-axis labels and adding a title. The new graph on the right side uses the plotly package to make the graph interactive.
  
+
 
 
 ```{r 4.1,results="asis",echo=FALSE}
@@ -193,9 +201,6 @@ cat(" <div style= \"clear:both; \"></div> ")
 
 <br>
 
-Here you can see the plot embeded in this HTML:
-![Alt text](p.png)
-
 ```{r, message=FALSE}
 p <- gapminder %>% 
   group_by(year,continent) %>% 
@@ -208,4 +213,10 @@ p <- gapminder %>%
 figname <- "p.png"
 ggsave(here::here("hw05",figname),plot=p,width=7.5,height=5,units = "in")
 ```
+
+<br>
+
+Here you can see the plot embeded in this HTML:
+![Alt text](p.png)
+
 
